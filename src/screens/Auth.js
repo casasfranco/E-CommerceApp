@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import RegisterForm from "../components/Auth/RegisterForm";
-
+import LoginForm from "../components/Auth/LoginForm";
 import logo from "../../assets/logo-grande.png";
 import { layoutStyle } from "../styles";
 
@@ -26,7 +26,7 @@ export default function Auth() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         {showLogin ? (
-          <Text>FormLogin</Text>
+          <LoginForm changeForm={changeForm} />
         ) : (
           <RegisterForm changeForm={changeForm} />
         )}
@@ -38,8 +38,8 @@ export default function Auth() {
 const styles = StyleSheet.create({
   logo: {
     width: "100%",
-    height: 130,
+    height: 160,
     resizeMode: "contain",
-    marginBottom: 20,
+    marginBottom: 15,
   },
 });
