@@ -3,6 +3,8 @@ import { View, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { registerApi } from "../../api/user";
+
 import { formStyles } from "../../styles";
 
 export default function RegisterForm(props) {
@@ -12,9 +14,13 @@ export default function RegisterForm(props) {
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     //Si no se valida en la linea anterior, esto no se ejecuta
-    onSubmit: (formData) => {
-      console.log("Registro de usuario enviado");
-      console.log(formData);
+    onSubmit: async (formData) => {
+      try {
+        await registerApi(formData);
+        console.log("Ok");
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
