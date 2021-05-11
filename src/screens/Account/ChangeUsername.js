@@ -32,10 +32,11 @@ export default function ChangeUsername() {
     onSubmit: async (formData) => {
       setLoading(true); //Start loading
       try {
-        await updateUserApi(auth, formData);
+        const response = await updateUserApi(auth, formData);
+        if(response.statusCode) throw "El nombre de usuario ya existe"
         navigation.goBack();
       } catch (error) {
-        Toast.show("Error al actualizar los datos.", {
+        Toast.show(error, {
           position: Toast.positions.CENTER,
         });
         setLoading(false); //Stop loading
@@ -72,7 +73,7 @@ function initialValues() {
 
 function validationSchema() {
   return {
-    username: Yup.string().required(true),
+    username: Yup.string().min(4).required(true),
   };
 }
 
