@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { View, Text, Button } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
 import jwtDecode from "jwt-decode";
+import AppNavigation from "./src/navigation/AppNavigation";
 import AuthScreen from "./src/screens/Auth";
 import AuthContext from "./src/context/AuthContext";
 import { setTokenApi, getTokenApi, removeTokenApi } from "./src/api/token";
@@ -33,22 +34,19 @@ export default function App() {
     });
   };
 
-
   const logout = () => {
-    if(auth) {
+    if (auth) {
       removeTokenApi();
-      setAuth(null)
+      setAuth(null);
     }
-  }
-
-
+  };
 
   //UseMemo sirve para comparar datos y si son distintos actualiza caso contrario nada. Mas optimizada la app
   const authData = useMemo(
     () => ({
       auth,
       login,
-      logout
+      logout,
     }),
     [auth]
   );
@@ -57,18 +55,7 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={authData}>
-      <PaperProvider>
-        {auth ? (
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <Text>Zona de usuarios</Text>
-            <Button title="Cerrar sesión" onPress={authData.logout} />
-          </View>
-        ) : (
-          <AuthScreen />
-        )}
-      </PaperProvider>
+      <PaperProvider>{auth ? <AppNavigation /> : <AuthScreen />}</PaperProvider>
     </AuthContext.Provider>
   );
 }
