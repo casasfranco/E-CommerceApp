@@ -1,5 +1,6 @@
 const colors = {
     primary: '#0098d3',
+    danger: '#CA0B00',
     dark: '#000',
     // Fonts
     fontLight: '#fff',
