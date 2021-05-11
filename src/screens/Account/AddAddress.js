@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useAuth from "../../hooks/useAuth";
+import { addAddressApi } from "../../api/address";
 import { formStyles } from "../../styles";
 
 export default function AddAddress() {
+  const [loading, setLoading] = useState(false);
+  const { auth } = useAuth();
+  const navigation = useNavigation();
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {
-      console.log("Creandk dirección...");
-      console.log(formData);
+    onSubmit: async (formData) => {
+      setLoading(true);
+      const state = "Pendiente";
+      const country = "Argentina";
+      try {
+        await addAddressApi(auth, {
+          state,
+          country,
+          ...formData,
+        });
+        navigation.goBack();
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     },
   });
 
@@ -66,6 +85,7 @@ export default function AddAddress() {
           mode="contained"
           style={[formStyles.btnSucces, styles.btnSucces]}
           onPress={formik.handleSubmit}
+          loading={loading}
         >
           {" "}
           Crear dirección
@@ -82,6 +102,8 @@ function initialValues() {
     address: "",
     postal_code: "",
     city: "",
+    state: "Pendiente",
+    country: "Argentina",
     phone: "",
   };
 }
