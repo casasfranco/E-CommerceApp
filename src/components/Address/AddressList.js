@@ -7,7 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import colors from "../../styles/colors";
 
 export default function AddressList(props) {
-  const { addresses } = props;
+  const { addresses, setReloadAddress } = props;
   const { auth } = useAuth();
 
   const deleteAddressAlert = (address) => {
@@ -30,6 +30,7 @@ export default function AddressList(props) {
   const deleteAddress = async (idAddress) => {
     try {
       await deleteAddressApi(auth, idAddress);
+      setReloadAddress(true);
     } catch (error) {
       console.log(error);
     }

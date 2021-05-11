@@ -16,16 +16,19 @@ import useAuth from "../../hooks/useAuth";
 
 export default function Addresses() {
   const [addresses, setAddresses] = useState(null);
+  const [reloadAddress, setReloadAddress] = useState(false)
   const { auth } = useAuth();
   const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
+      setAddresses(null);
       (async () => {
         const response = await getAddressesApi(auth);
         setAddresses(response);
+        setReloadAddress(false);
       })();
-    }, [])
+    }, [reloadAddress])
   );
 
   return (
@@ -46,6 +49,7 @@ export default function Addresses() {
       ) : (
         <AddressList 
         addresses={addresses}
+        setReloadAddress={setReloadAddress}
         />
       )}
     </ScrollView>
