@@ -11,11 +11,19 @@ export async function setTokenApi(token) {
 }
 
 export async function getTokenApi() {
-    try {
-        const token = await AsyncStorage.getItem(TOKEN);
-        return token;
-    } catch (error) {
-        return null;
-    }
+  try {
+    const token = await AsyncStorage.getItem(TOKEN);
+    return token;
+  } catch (error) {
+    return null;
+  }
 }
 
+export async function removeTokenApi() {
+  try {
+    await AsyncStorage.removeItem(TOKEN);
+    return true;
+  } catch (error) {
+    return null;
+  }
+}
