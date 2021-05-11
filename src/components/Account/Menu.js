@@ -11,7 +11,7 @@ export default function Menu() {
   const logoutAccount = () => {
     Alert.alert(
       "Cerrar sesión",
-      "Estás seguro que quieres salir de tu cuenta?",
+      "¿Estás seguro que quieres salir de tu cuenta?",
       [
         {
           text: "NO",

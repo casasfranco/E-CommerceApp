@@ -2,10 +2,39 @@ import React from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { Button } from "react-native-paper";
 import { map } from "lodash";
+import { deleteAddressApi } from "../../api/address";
+import useAuth from "../../hooks/useAuth";
 import colors from "../../styles/colors";
 
 export default function AddressList(props) {
   const { addresses } = props;
+  const { auth } = useAuth();
+
+  const deleteAddressAlert = (address) => {
+    Alert.alert(
+      "Eliminando dirección",
+      `¿Estas seguro de que quieres eliminar la dirección ${address.title}?`,
+      [
+        {
+          text: "NO",
+        },
+        {
+          text: "SI",
+          onPress: () => deleteAddress(address._id),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const deleteAddress = async (idAddress) => {
+    try {
+      await deleteAddressApi(auth, idAddress);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {map(addresses, (address) => (
@@ -23,7 +52,11 @@ export default function AddressList(props) {
             <Button mode="contained" color={colors.primary}>
               Editar
             </Button>
-            <Button mode="contained" color={colors.danger}>
+            <Button
+              mode="contained"
+              color={colors.danger}
+              onPress={() => deleteAddressAlert(address)}
+            >
               Eliminar
             </Button>
           </View>
