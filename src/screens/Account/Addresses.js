@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -7,8 +7,22 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { IconButton } from "react-native-paper";
+import { useFocusEffect } from "@react-navigation/native";
+import { getAddressesApi } from "../../api/address";
+import useAuth from "../../hooks/useAuth";
 
 export default function Addresses() {
+  const { auth } = useAuth();
+
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const response = await getAddressesApi(auth);
+        console.log(response);
+      })();
+    }, [])
+  );
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Mis direcciones</Text>
