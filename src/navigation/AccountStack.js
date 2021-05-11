@@ -4,6 +4,7 @@ import Account from "../screens/Account/Account";
 import ChangeName from "../screens/Account/ChangeName";
 import ChangeEmail from "../screens/Account/ChangeEmail";
 import ChangeUsername from "../screens/Account/ChangeUsername";
+import ChangePassword from "../screens/Account/ChangePassword";
 import colors from "../styles/colors";
 
 const Stack = createStackNavigator();
@@ -36,6 +37,11 @@ export default function AccountStack() {
         name="change-username"
         component={ChangeUsername}
         options={{ title: "Cambiar username" }}
+      />
+      <Stack.Screen
+        name="change-password"
+        component={ChangePassword}
+        options={{ title: "Cambiar contraseña" }}
       />
     </Stack.Navigator>
   );
