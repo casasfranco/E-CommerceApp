@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { ScrollView, Text } from "react-native";
-import StatusBar from '../components/StatusBar'
+import { useFocusEffect } from "@react-navigation/native";
+import StatusBar from "../components/StatusBar";
 import Search from "../components/Search";
-import colors from '../styles/colors'
+import { getMeApi } from "../api/user";
+import useAuth from "../hooks/useAuth";
+import colors from "../styles/colors";
 
 export default function Account() {
+  const [user, setUser] = useState(null);
+  const { auth } = useAuth();
+
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const response = await getMeApi(auth.token);
+        console.log(response);
+      })();
+    }, [])
+  );
+
   return (
     <>
-    <StatusBar backgroundColor={colors.bgDark} barStyle='light-content' />
+      <StatusBar backgroundColor={colors.bgDark} barStyle="light-content" />
       <Search />
       <ScrollView>
         <Text>Estamos en la MI CUENTA</Text>
