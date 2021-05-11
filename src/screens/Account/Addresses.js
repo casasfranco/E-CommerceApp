@@ -1,24 +1,27 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
   View,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import { IconButton } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
+import { size } from "lodash";
 import { getAddressesApi } from "../../api/address";
 import useAuth from "../../hooks/useAuth";
 
 export default function Addresses() {
+  const [addresses, setAddresses] = useState(null);
   const { auth } = useAuth();
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
         const response = await getAddressesApi(auth);
-        console.log(response);
+        setAddresses(response)
       })();
     }, [])
   );
@@ -34,6 +37,15 @@ export default function Addresses() {
           <IconButton icon="arrow-right" color="#000" size={19} />
         </View>
       </TouchableWithoutFeedback>
+      {!addresses ? (
+        <ActivityIndicator size="large" style={styles.loading} />
+      ) : (
+        size(addresses) === 0 ? (
+        <Text style={styles.noAddressText}>Crea tu primera dirección</Text>
+        ) : (
+            <Text>Listado de direcciones</Text>
+        )
+      )}
     </ScrollView>
   );
 }
@@ -59,4 +71,12 @@ const styles = StyleSheet.create({
   addAddressText: {
     fontSize: 16,
   },
+  loading: {
+    marginTop: 20,
+  },
+  noAddressText: {
+      fontSize:16,
+      marginTop:10,
+      textAlign: 'center'
+  }
 });
