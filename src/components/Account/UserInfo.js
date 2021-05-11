@@ -7,7 +7,9 @@ export default function UserInfo(props) {
     <View style={styles.container}>
       <Text style={styles.title}>Bienvenido, </Text>
       <Text style={styles.titleName}>
-      {user.name && user.lastname ? `${user.name} ${user.lastname}`: user.email}
+        {user.name && user.lastname
+          ? `${user.name} ${user.lastname}`
+          : user.email}
       </Text>
     </View>
   );
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   titleName: {
-      fontSize:20,
-      fontWeight: 'bold'
-  }
+    fontSize: 20,
+    fontWeight: "bold",
+  },
 });
