@@ -1,17 +1,18 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import { useFocusEffect } from "@react-navigation/native";
-import { getMeApi } from "../../api/user";
-import useAuth from "../../hooks/useAuth";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import colors from "../../styles/colors";
+import Toast from "react-native-root-toast";
+import { getMeApi, updateUserApi } from "../../api/user";
+import useAuth from "../../hooks/useAuth";
 import { formStyles } from "../../styles/";
 
 export default function ChangeEmail() {
   const { auth } = useAuth(); //Token de user
-
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
       (async () => {
@@ -24,9 +25,19 @@ export default function ChangeEmail() {
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: (formData) => {
-      console.log("Formulario enviado");
-      console.log(formData);
+    onSubmit: async (formData) => {
+      setLoading(true);
+      try {
+        const response = await updateUserApi(auth, formData);
+        if (response.statusCode) throw "El email ya existe";
+        navigation.goBack();
+      } catch (error) {
+        Toast.show(error, {
+          position: Toast.positions.CENTER,
+        });
+        formik.setFieldError("email", true);
+        setLoading(false);
+      }
     },
   });
 
@@ -43,6 +54,7 @@ export default function ChangeEmail() {
         mode="contained"
         style={formStyles.btnSucces}
         onPress={formik.handleSubmit}
+        loading={loading}
       >
         Cambiar email
       </Button>
