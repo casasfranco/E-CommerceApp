@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import useAuth from "../../hooks/useAuth";
-import { addAddressApi, getAddressesApi } from "../../api/address";
+import { addAddressApi, getAddressApi } from "../../api/address";
 import { formStyles } from "../../styles";
 
 export default function AddAddress(props) {
@@ -14,14 +14,25 @@ export default function AddAddress(props) {
     route: { params },
   } = props;
   const [loading, setLoading] = useState(false);
+  const [newAddress, setNewAddress] = useState(true);
   const { auth } = useAuth();
   const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
       if (params?.idAddress) {
-        const response = await getAddressesApi(auth, params.idAddress);
-        console.log(response);
+        setNewAddress(false);
+        navigation.setOptions({
+          title: "Actualizar dirección"
+        })
+        const response = await getAddressApi(auth, params.idAddress);
+        await formik.setFieldValue("_id", response._id);
+        await formik.setFieldValue("title", response.title);
+        await formik.setFieldValue("name_lastname", response.name_lastname);
+        await formik.setFieldValue("address", response.address);
+        await formik.setFieldValue("postal_code", response.postal_code);
+        await formik.setFieldValue("city", response.city);
+        await formik.setFieldValue("phone", response.phone);
       }
     })();
   }, [params]);
@@ -99,8 +110,7 @@ export default function AddAddress(props) {
           onPress={formik.handleSubmit}
           loading={loading}
         >
-          {" "}
-          Crear dirección
+          {newAddress ? "Crear dirección" : "Actualizar dirección"}
         </Button>
       </View>
     </KeyboardAwareScrollView>
@@ -114,8 +124,6 @@ function initialValues() {
     address: "",
     postal_code: "",
     city: "",
-    state: "Pendiente",
-    country: "Argentina",
     phone: "",
   };
 }
