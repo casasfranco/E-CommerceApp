@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import ListProduct from "./ListProduct";
 import { getLastProductsApi } from "../../api/product";
 
 export default function NewProducts() {
@@ -7,14 +8,27 @@ export default function NewProducts() {
 
   useEffect(() => {
     (async () => {
-      const response = await getLastProductsApi(2);
+      const response = await getLastProductsApi();
       setProducts(response);
     })();
   }, []);
 
   return (
-    <View>
-      <Text>Hola mundo</Text>
+    <View style={StyleSheet.container}>
+      <Text style={styles.title}>Nuevos productos</Text>
+      {products && <ListProduct products={products} />}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    marginTop: 20,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginBottom: 10,
+  },
+});
