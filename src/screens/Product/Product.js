@@ -6,6 +6,7 @@ import ScreenLoading from "../../components/ScreenLoading";
 import CarouselImage from "../../components/Product/CarouselImage";
 import { getProductApi } from "../../api/product";
 import colors from "../../styles/colors";
+import Price from "../../components/Product/Price";
 
 export default function Product(props) {
   const { route } = props;
@@ -36,7 +37,9 @@ export default function Product(props) {
         <ScrollView style={styles.container}>
           <Text style={styles.title}>{product.title}</Text>
           <CarouselImage images={images} />
-          <View style={styles.containerView}></View>
+          <View style={styles.containerView}>
+              <Price price={product.price} price_with_discount={product.price_with_discount} discountFromUnits={product.discount_from_units}/>
+          </View>
         </ScrollView>
       )}
     </>
