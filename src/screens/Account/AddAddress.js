@@ -6,7 +6,11 @@ import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import useAuth from "../../hooks/useAuth";
-import { addAddressApi, getAddressApi } from "../../api/address";
+import {
+  addAddressApi,
+  getAddressApi,
+  updateAddressApi,
+} from "../../api/address";
 import { formStyles } from "../../styles";
 
 export default function AddAddress(props) {
@@ -23,8 +27,8 @@ export default function AddAddress(props) {
       if (params?.idAddress) {
         setNewAddress(false);
         navigation.setOptions({
-          title: "Actualizar dirección"
-        })
+          title: "Actualizar dirección",
+        });
         const response = await getAddressApi(auth, params.idAddress);
         await formik.setFieldValue("_id", response._id);
         await formik.setFieldValue("title", response.title);
@@ -45,11 +49,13 @@ export default function AddAddress(props) {
       const state = "Pendiente";
       const country = "Argentina";
       try {
-        await addAddressApi(auth, {
-          state,
-          country,
-          ...formData,
-        });
+        if (newAddress)
+          await addAddressApi(auth, {
+            state,
+            country,
+            ...formData,
+          });
+        else await updateAddressApi(auth, formData);
         navigation.goBack();
       } catch (error) {
         console.log(error);
