@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Image, Dimensions } from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import { size } from "lodash";
 import { API_URL } from "../../utils/constants";
-import Carousel from "react-native-snap-carousel";
 
-const width = (Dimensions.get('window').width);
+const width = Dimensions.get("window").width;
 const height = 500;
 
 export default function CarouselImage(props) {
   const { images } = props;
+  const [imageActive, setImageActive] = useState(0);
 
   const renderItem = ({ item }) => {
     return (
@@ -26,6 +28,13 @@ export default function CarouselImage(props) {
         sliderWidth={width}
         itemWidth={width}
         renderItem={renderItem}
+        onSnapToItem={(index) => setImageActive(index)} //Index de la imagen que estoy visualizando para manejar los dots inferiores
+      />
+      <Pagination
+        dotsLength={size(images)}
+        activeDotIndex={imageActive}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
       />
     </>
   );
