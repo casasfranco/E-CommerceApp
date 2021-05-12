@@ -24,7 +24,7 @@ export default function Product(props) {
     <>
       <StatusBar backgroundColor={colors.bgDark} barstyle="light-content" />
       <Search />
-      {product ? (
+      {!product ? (
         <ScreenLoading text="Cargando producto" size="large" />
       ) : (
         <View>
