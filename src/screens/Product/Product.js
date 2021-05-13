@@ -8,6 +8,7 @@ import { getProductApi } from "../../api/product";
 import Price from "../../components/Product/Price";
 import Quantity from "../../components/Product/Quantity";
 import Buy from "../../components/Product/Buy";
+import Favorite from "../../components/Product/Favorite";
 import colors from "../../styles/colors";
 
 export default function Product(props) {
@@ -50,6 +51,7 @@ export default function Product(props) {
             />
             <Quantity quantity={quantity} setQuantity={setQuantity} />
             <Buy product={product} quantity={quantity} />
+            <Favorite product={product} />
           </View>
         </ScrollView>
       )}
