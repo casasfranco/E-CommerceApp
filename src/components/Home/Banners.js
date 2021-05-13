@@ -6,7 +6,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from "react-native";
-import Carousel from "react-native-snap-carousel";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 import { size } from "lodash";
 import { getBannerApi } from "../../api/home-banner";
 import { API_URL } from "../../utils/constants";
@@ -16,6 +16,7 @@ const height = 160;
 
 export default function Banners() {
   const [banners, setBanners] = useState();
+  const [bannerActive, setBannerActive] = useState(0)
 
   useEffect(() => {
     (async () => {
@@ -45,6 +46,16 @@ export default function Banners() {
         sliderWidth={width}
         itemWidth={width}
         renderItem={renderItem}
+        onSnapToItem={(index)=> setBannerActive(index)}
+      />
+      <Pagination
+        dotsLength={size(banners)}
+        activeDotIndex={bannerActive}
+        inactiveDotOpacity={0.6}
+        inactiveDotScale={0.6}
+        containerStyle={styles.dotsContainer}
+        dotStyle={styles.dot}
+        inactiveDotStyle={styles.dot}
       />
     </View>
   );
@@ -58,4 +69,12 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
   },
+  dotsContainer: {
+    position: "absolute",
+    bottom: -20,
+    width: "100%",
+  },
+  dot: {
+      backgroundColor: "#DEDDDD"
+  }
 });
