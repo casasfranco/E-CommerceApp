@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
+import { useNavigation } from "@react-navigation/native";
 import { size } from "lodash";
 import { getBannerApi } from "../../api/home-banner";
 import { API_URL } from "../../utils/constants";
@@ -16,7 +17,8 @@ const height = 160;
 
 export default function Banners() {
   const [banners, setBanners] = useState();
-  const [bannerActive, setBannerActive] = useState(0)
+  const [bannerActive, setBannerActive] = useState(0);
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -29,13 +31,17 @@ export default function Banners() {
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableWithoutFeedback onPress={() => console.log("ir a producto")}>
+      <TouchableWithoutFeedback onPress={() => goToProduct(item.product._id)}>
         <Image
           style={styles.carousel}
           source={{ uri: `${API_URL}${item.banner.url}` }}
         />
       </TouchableWithoutFeedback>
     );
+  };
+
+  const goToProduct = (id) => {
+    navigation.push("product", { idProduct: id });
   };
 
   return (
@@ -46,7 +52,7 @@ export default function Banners() {
         sliderWidth={width}
         itemWidth={width}
         renderItem={renderItem}
-        onSnapToItem={(index)=> setBannerActive(index)}
+        onSnapToItem={(index) => setBannerActive(index)}
       />
       <Pagination
         dotsLength={size(banners)}
@@ -75,6 +81,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   dot: {
-      backgroundColor: "#DEDDDD"
-  }
+    backgroundColor: "#DEDDDD",
+  },
 });
