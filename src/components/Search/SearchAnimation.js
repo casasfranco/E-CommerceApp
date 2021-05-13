@@ -13,7 +13,7 @@ export const inputAnimationWidth = animVal.interpolate({
 });
 
 export const inputAnimation = {
-  trnasform: [
+  transform: [
     {
       translateX: animVal.interpolate({
         inputRange: [0, 1],
@@ -22,3 +22,14 @@ export const inputAnimation = {
     },
   ],
 };
+
+export const animatedTransition = Animated.spring(animVal, {
+  toValue: 1,
+  useNativeDriver: false,
+});
+
+
+export const animatedTransitionReset = Animated.spring(animVal, {
+    toValue: 0,
+    useNativeDriver: false,
+  });

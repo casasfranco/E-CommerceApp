@@ -5,10 +5,21 @@ import {
   AnimatedIcon,
   inputAnimation,
   inputAnimationWidth,
+  animatedTransition,
+  animatedTransitionReset,
 } from "./SearchAnimation";
 import colors from "../../styles/colors";
 
 export default function Search() {
+  const openSearch = () => {
+    animatedTransition.start();
+  };
+
+  const closeSearch = () => {
+    animatedTransitionReset.start();
+    Keyboard.dismiss();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.containerInput}>
@@ -16,11 +27,11 @@ export default function Search() {
           name="arrow-left"
           size={20}
           style={styles.backArrow}
-          onPress={() => console.log("Cerrar buscador")}
+          onPress={closeSearch}
         />
 
         <Animated.View style={[inputAnimation, { width: inputAnimationWidth }]}>
-          <Searchbar placeholder="Busca tu producto..." />
+          <Searchbar placeholder="Busca tu producto" onFocus={openSearch} />
         </Animated.View>
       </View>
     </View>
