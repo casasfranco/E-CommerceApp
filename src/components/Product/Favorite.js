@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 
 export default function Favorite(props) {
@@ -11,6 +11,7 @@ export default function Favorite(props) {
   };
 
   return (
+    <View style={{ zIndex: 1 }}> 
     <Button
       mode="contained"
       contentStyle={styles.btnAddFavoritesContent}
@@ -20,6 +21,7 @@ export default function Favorite(props) {
     >
       Añadir a favoritos
     </Button>
+    </View>
   );
 }
 

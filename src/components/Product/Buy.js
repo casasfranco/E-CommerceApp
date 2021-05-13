@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 
 export default function Buy(props) {
@@ -12,15 +12,17 @@ export default function Buy(props) {
   };
 
   return (
-    <Button
-      mode="contained"
-      contentStyle={styles.btnBuyContent}
-      labelStyle={styles.btnLabel}
-      style={styles.btn}
-      onPress={addProductCart}
-    >
-      Añadir al carrito
-    </Button>
+    <View style={{ zIndex: 1 }}>
+      <Button
+        mode="contained"
+        contentStyle={styles.btnBuyContent}
+        labelStyle={styles.btnLabel}
+        style={styles.btn}
+        onPress={addProductCart}
+      >
+        Añadir al carrito
+      </Button>
+    </View>
   );
 }
 

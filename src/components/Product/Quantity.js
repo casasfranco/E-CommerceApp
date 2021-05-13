@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { itemsDefault } from "../../utils/itemSelector";
 export default function Quantity(props) {
@@ -10,23 +10,26 @@ export default function Quantity(props) {
   const [items, setItems] = useState(itemsDefault);
 
   return (
-    <DropDownPicker
-      placeholder="Selecciona una cantidad"
-      open={open}
-      value={value}
-      defaultValue={quantity}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-      searchable={false}
-      containerStyle={styles.containerStyle}
-      itemStyle={styles.itemStyle}
-      dropDownContainerStyle={styles.dropDownPicker}
-      style={styles.dropDownPicker}
-      labelStyle={styles.labelStyle}
-      onChangeValue={(item) => setQuantity(item)}
-    />
+    <View style={{zIndex: 2}}>
+
+      <DropDownPicker
+        placeholder="Selecciona una cantidad"
+        open={open}
+        value={value}
+        defaultValue={quantity}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        searchable={false}
+        containerStyle={styles.containerStyle}
+        itemStyle={styles.itemStyle}
+        dropDownContainerStyle={styles.dropDownPicker}
+        style={styles.dropDownPicker}
+        labelStyle={styles.labelStyle}
+        onChangeValue={(item) => setQuantity(item)}
+      />
+    </View>
   );
 }
 
