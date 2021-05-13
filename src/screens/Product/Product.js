@@ -7,6 +7,7 @@ import CarouselImage from "../../components/Product/CarouselImage";
 import { getProductApi } from "../../api/product";
 import Price from "../../components/Product/Price";
 import Quantity from "../../components/Product/Quantity";
+import Buy from "../../components/Product/Buy";
 import colors from "../../styles/colors";
 
 export default function Product(props) {
@@ -48,6 +49,7 @@ export default function Product(props) {
               discountFromUnits={product.discount_from_units}
             />
             <Quantity quantity={quantity} setQuantity={setQuantity} />
+            <Buy product={product} quantity={quantity} />
           </View>
         </ScrollView>
       )}
