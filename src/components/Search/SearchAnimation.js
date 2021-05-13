@@ -5,6 +5,17 @@ export const AnimatedIcon = Animated.createAnimatedComponent(AwesomeIcon); //Cre
 
 const animVal = new Animated.Value(0); //Constante para guardar la configuracion de la animacion para luego ejecutar
 
+export const arrowAnimation = {
+  transform: [
+    {
+      translateX: animVal.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-100, 5],
+      }),
+    },
+  ],
+};
+
 export const inputAnimationWidth = animVal.interpolate({
   //Sirve para animar el ancho del inputo
 
@@ -28,8 +39,7 @@ export const animatedTransition = Animated.spring(animVal, {
   useNativeDriver: false,
 });
 
-
 export const animatedTransitionReset = Animated.spring(animVal, {
-    toValue: 0,
-    useNativeDriver: false,
-  });
+  toValue: 0,
+  useNativeDriver: false,
+});

@@ -7,6 +7,7 @@ import {
   inputAnimationWidth,
   animatedTransition,
   animatedTransitionReset,
+  arrowAnimation
 } from "./SearchAnimation";
 import colors from "../../styles/colors";
 
@@ -26,7 +27,7 @@ export default function Search() {
         <AnimatedIcon
           name="arrow-left"
           size={20}
-          style={styles.backArrow}
+          style={[styles.backArrow, arrowAnimation]}
           onPress={closeSearch}
         />
 
