@@ -5,8 +5,9 @@ import Search from "../../components/Search";
 import ScreenLoading from "../../components/ScreenLoading";
 import CarouselImage from "../../components/Product/CarouselImage";
 import { getProductApi } from "../../api/product";
-import colors from "../../styles/colors";
 import Price from "../../components/Product/Price";
+import Quantity from "../../components/Product/Quantity";
+import colors from "../../styles/colors";
 
 export default function Product(props) {
   const { route } = props;
@@ -14,6 +15,9 @@ export default function Product(props) {
 
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+
+  console.log(quantity);
 
   useEffect(() => {
     (async () => {
@@ -38,7 +42,12 @@ export default function Product(props) {
           <Text style={styles.title}>{product.title}</Text>
           <CarouselImage images={images} />
           <View style={styles.containerView}>
-              <Price price={product.price} price_with_discount={product.price_with_discount} discountFromUnits={product.discount_from_units}/>
+            <Price
+              price={product.price}
+              price_with_discount={product.price_with_discount}
+              discountFromUnits={product.discount_from_units}
+            />
+            <Quantity quantity={quantity} setQuantity={setQuantity} />
           </View>
         </ScrollView>
       )}

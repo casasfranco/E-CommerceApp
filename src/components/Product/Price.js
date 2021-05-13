@@ -3,17 +3,13 @@ import { StyleSheet, View, Text } from "react-native";
 
 export default function Price(props) {
   const { price, price_with_discount, discountFromUnits } = props;
-  console.log("price:" + price);
-  console.log("price_with_discount:" + price_with_discount);
 
   const calcPrice = (price, price_with_discount) => {
     if (!price_with_discount) return price;
   };
 
   const calcPercent = (price, save) => {
-    console.log(save);
     return ((save * 100) / price).toFixed(2);
-    if (!price_with_discount) return price;
   };
 
   const selectPrice = (quantity) => {
@@ -25,11 +21,11 @@ export default function Price(props) {
       {price_with_discount ? (
         <>
           <View style={styles.containerData}>
-            <Text style={styles.dataText}>Precio</Text>
+            <Text style={styles.dataText}>Precio: </Text>
             <Text style={[styles.dataValue, styles.oldPrice]}>$ {price}</Text>
           </View>
           <View style={styles.containerData}>
-            <Text style={styles.dataText}>Precio 3 unidades o más</Text>
+            <Text style={styles.dataText}>Llevando 3 ud. o más: </Text>
             <Text style={[styles.dataValue, styles.currentPrice]}>
               $ {price_with_discount}
             </Text>
@@ -37,7 +33,7 @@ export default function Price(props) {
         </>
       ) : (
         <View style={styles.containerData}>
-          <Text style={styles.dataText}>Precio 3 unidades o más</Text>
+          <Text style={styles.dataText}>Llevando 3 ud. o más: </Text>
           <Text style={[styles.dataValue, styles.currentPrice]}>
             $ {price_with_discount}
           </Text>
@@ -70,7 +66,7 @@ const styles = StyleSheet.create({
     width: "50%",
     fontSize: 18,
     color: "#747474",
-    textAlign: "left",
+    textAlign: "right",
   },
   dataValue: {
     width: "50%",
