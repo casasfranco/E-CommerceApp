@@ -53,6 +53,9 @@ export default function Banners() {
         itemWidth={width}
         renderItem={renderItem}
         onSnapToItem={(index) => setBannerActive(index)}
+        autoplay={true}
+        autoplayInterval={6500}
+        loop={true}
       />
       <Pagination
         dotsLength={size(banners)}
