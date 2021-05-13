@@ -19,8 +19,6 @@ export default function Product(props) {
   const [images, setImages] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
-  console.log(quantity);
-
   useEffect(() => {
     (async () => {
       const response = await getProductApi(params.idProduct);
@@ -72,5 +70,6 @@ const styles = StyleSheet.create({
   },
   containerView: {
     padding: 10,
+    marginBottom: 100,
   },
 });
