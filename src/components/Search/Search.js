@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Keyboard, Animated } from "react-native";
 import { Searchbar } from "react-native-paper";
+import {useNavigation} from '@react-navigation/native'
 import {
   AnimatedIcon,
   inputAnimation,
   inputAnimationWidth,
   animatedTransition,
   animatedTransitionReset,
-  arrowAnimation
+  arrowAnimation,
 } from "./SearchAnimation";
 import colors from "../../styles/colors";
 
 export default function Search() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigation = useNavigation();
+
+  const onChangeSearch = (query) => setSearchQuery(query);
+
   const openSearch = () => {
     animatedTransition.start();
   };
@@ -20,6 +26,15 @@ export default function Search() {
     animatedTransitionReset.start();
     Keyboard.dismiss();
   };
+
+  const onSearch =() => {
+    console.log('Buscando... ' + searchQuery);
+    closeSearch();
+
+    navigation.push('search',{
+      search: searchQuery
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -32,7 +47,13 @@ export default function Search() {
         />
 
         <Animated.View style={[inputAnimation, { width: inputAnimationWidth }]}>
-          <Searchbar placeholder="Busca tu producto" onFocus={openSearch} />
+          <Searchbar
+            placeholder="Busca tu producto"
+            value={searchQuery}
+            onFocus={openSearch}
+            onChangeText={onChangeSearch}
+            onSubmitEditing={onSearch}
+          />
         </Animated.View>
       </View>
     </View>
