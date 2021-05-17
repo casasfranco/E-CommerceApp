@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Keyboard, Animated } from "react-native";
 import { Searchbar } from "react-native-paper";
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from "@react-navigation/native";
 import {
   AnimatedIcon,
   inputAnimation,
@@ -10,10 +10,12 @@ import {
   animatedTransitionReset,
   arrowAnimation,
 } from "./SearchAnimation";
+import SearchHistory from "./SearchHistory";
 import colors from "../../styles/colors";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showHistory, setShowHistory] = useState(false)
   const navigation = useNavigation();
 
   const onChangeSearch = (query) => setSearchQuery(query);
@@ -25,16 +27,17 @@ export default function Search() {
   const closeSearch = () => {
     animatedTransitionReset.start();
     Keyboard.dismiss();
+    setShowHistory(!showHistory)
   };
 
-  const onSearch =() => {
-    console.log('Buscando... ' + searchQuery);
+  const onSearch = () => {
+    console.log("Buscando... " + searchQuery);
     closeSearch();
 
-    navigation.push('search',{
-      search: searchQuery
-    })
-  }
+    navigation.push("search", {
+      search: searchQuery,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -56,6 +59,7 @@ export default function Search() {
           />
         </Animated.View>
       </View>
+      <SearchHistory showHistory={showHistory} />
     </View>
   );
 }
