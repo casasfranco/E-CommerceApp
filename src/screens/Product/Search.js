@@ -1,13 +1,24 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
+import { searchProductsApi } from "../../api/search";
 
 export default function Search(props) {
-    const { route } = props;
-    const { params } = route;
-    console.log('Screen search --> ' + params.search);
-    return (
-        <View>
-            <Text></Text>
-        </View>
-    )
+  const { route } = props;
+  const { params } = route;
+
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      setProducts(null);
+      const response = await searchProductsApi(params.search);
+      setProducts(response);
+    })();
+  }, [params.search]);
+
+  return (
+    <View>
+      <Text></Text>
+    </View>
+  );
 }
