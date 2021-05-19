@@ -15,19 +15,22 @@ import colors from "../../styles/colors";
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showHistory, setShowHistory] = useState(false)
+  const [showHistory, setShowHistory] = useState(false);
+  const [containerHeight, setContainerHeight] = useState(0);
   const navigation = useNavigation();
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
   const openSearch = () => {
     animatedTransition.start();
+    setShowHistory(!showHistory);
   };
 
   const closeSearch = () => {
     animatedTransitionReset.start();
     Keyboard.dismiss();
-    setShowHistory(!showHistory)
+
+    setShowHistory(!showHistory);
   };
 
   const onSearch = () => {
@@ -40,7 +43,10 @@ export default function Search() {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onLayout={(e) => setContainerHeight(e.nativeEvent.layout.height)}
+    >
       <View style={styles.containerInput}>
         <AnimatedIcon
           name="arrow-left"
@@ -59,7 +65,10 @@ export default function Search() {
           />
         </Animated.View>
       </View>
-      <SearchHistory showHistory={showHistory} />
+      <SearchHistory
+        showHistory={showHistory}
+        containerHeight={containerHeight}
+      />
     </View>
   );
 }

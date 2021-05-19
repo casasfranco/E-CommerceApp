@@ -9,9 +9,14 @@ import {
 import colors from "../../styles/colors";
 
 export default function SearchHistory(props) {
-  const { showHistory } = props;
+  const { showHistory, containerHeight } = props;
   return (
-    <View style={[showHistory ? styles.history : styles.hidden, { top: 90 }]}>
+    <View
+      style={[
+        showHistory ? styles.history : styles.hidden,
+        { top: containerHeight },
+      ]}
+    >
       <Text>Historial de busquedas</Text>
     </View>
   );
@@ -23,7 +28,8 @@ const styles = StyleSheet.create({
   },
   history: {
     position: "absolute",
-    backgroundColor: colors.bgLight,
+    backgroundColor: "#f00",
+    // backgroundColor: colors.bgLight,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
