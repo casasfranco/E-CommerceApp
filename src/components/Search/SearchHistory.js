@@ -12,7 +12,7 @@ import { getSearchHistoryApi } from "../../api/search";
 import colors from "../../styles/colors";
 
 export default function SearchHistory(props) {
-  const { showHistory, containerHeight } = props;
+  const { showHistory, containerHeight, onSearch } = props;
   const [history, setHistory] = useState(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function SearchHistory(props) {
         map(history, (item, index) => (
           <TouchableWithoutFeedback
             key={index}
-            onPress={() => console.log(item.search)}
+            onPress={() => onSearch(item.search)}
           >
             <View style={styles.historyItem}>
               <Text style={styles.text} >{item.search}</Text>

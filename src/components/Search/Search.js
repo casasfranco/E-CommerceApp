@@ -34,13 +34,15 @@ export default function Search() {
     setShowHistory(!showHistory);
   };
 
-  const onSearch = async () => {
+  const onSearch = async (reuseSearch) => {
+    const isReuse = typeof reuseSearch === "string"; //sabemos si reutiliza o no
+
     closeSearch();
 
-    await updateSearchHistoryApi(searchQuery);
+    !isReuse && (await updateSearchHistoryApi(searchQuery));
 
     navigation.push("search", {
-      search: searchQuery,
+      search: isReuse ? reuseSearch : searchQuery,
     });
   };
 
@@ -70,6 +72,7 @@ export default function Search() {
       <SearchHistory
         showHistory={showHistory}
         containerHeight={containerHeight}
+        onSearch={onSearch}
       />
     </View>
   );

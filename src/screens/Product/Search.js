@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 export default function Search(props) {
     const { route } = props;
     const { params } = route;
-    console.log(params.search);
+    console.log('Screen search --> ' + params.search);
     return (
         <View>
             <Text></Text>

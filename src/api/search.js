@@ -4,7 +4,7 @@ import { sortArrayDate } from "../utils/functions";
 import { size } from "lodash";
 
 export async function getSearchHistoryApi() {
-//   await AsyncStorage.removeItem(SEARCH_HISTORY);
+  //   await AsyncStorage.removeItem(SEARCH_HISTORY);
   try {
     const history = await AsyncStorage.getItem(SEARCH_HISTORY);
     if (!history) return []; //Si es nulo
@@ -20,7 +20,6 @@ export async function updateSearchHistoryApi(search) {
   const history = await getSearchHistoryApi();
 
   if (size(history) > 4) history.pop();
-console.log(search);
   if (search !== "" && search !== " ") {
     history.push({
       search,
