@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
 import { size } from "lodash";
 import StatusBar from "../../components/StatusBar";
 import Search from "../../components/Search/";
 import ScreenLoading from "../../components/ScreenLoading";
-import { searchProductsApi } from "../../api/search";
 import ResultNotFound from "../../components/Search/ResultNotFound";
+import ProductList from '../../components/Search/ProductList'
+import { searchProductsApi } from "../../api/search";
 import colors from "../../styles/colors";
 
 export default function SearchScreen(props) {
@@ -31,7 +31,7 @@ export default function SearchScreen(props) {
       ) : size(products) === 0 ? (
         <ResultNotFound search={params.search} />
       ) : (
-        <Text>Lista de productos</Text>
+        <ProductList products={products} />
       )}
     </>
   );
