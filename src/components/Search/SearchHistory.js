@@ -20,7 +20,6 @@ export default function SearchHistory(props) {
       (async () => {
         const response = await getSearchHistoryApi();
         setHistory(response);
-        console.log(response);
       })();
     }
   }, [showHistory]);
