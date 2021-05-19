@@ -2,7 +2,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SEARCH_HISTORY } from "../utils/constants";
 
 export async function getSearchHistoryApi() {
-  return [];
+  try {
+    const history = await AsyncStorage.getItem(SEARCH_HISTORY);
+    if (!history) return []; //Si es nulo
+
+    return JSON.parse(history);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 export async function updateSearchHistoryApi(search) {

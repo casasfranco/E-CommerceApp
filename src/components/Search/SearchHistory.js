@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -6,10 +6,22 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from "react-native";
+import { getSearchHistoryApi } from "../../api/search";
 import colors from "../../styles/colors";
 
 export default function SearchHistory(props) {
   const { showHistory, containerHeight } = props;
+  const [history, setHistory] = useState(null);
+
+  useEffect(() => {
+    if (showHistory) {
+      (async () => {
+        const response = await getSearchHistoryApi();
+        console.log(response);
+      })();
+    }
+  }, [showHistory]);
+
   return (
     <View
       style={[
