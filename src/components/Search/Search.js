@@ -11,6 +11,7 @@ import {
   arrowAnimation,
 } from "./SearchAnimation";
 import SearchHistory from "./SearchHistory";
+import { updateSearchHistoryApi } from "../../api/search";
 import colors from "../../styles/colors";
 
 export default function Search() {
@@ -33,9 +34,10 @@ export default function Search() {
     setShowHistory(!showHistory);
   };
 
-  const onSearch = () => {
-    console.log("Buscando... " + searchQuery);
+  const onSearch = async () => {
     closeSearch();
+
+    await updateSearchHistoryApi(searchQuery);
 
     navigation.push("search", {
       search: searchQuery,
