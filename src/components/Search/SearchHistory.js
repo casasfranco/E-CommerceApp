@@ -6,6 +6,8 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from "react-native";
+import AwesomeIcon from "react-native-vector-icons/FontAwesome";
+import { map } from "lodash";
 import { getSearchHistoryApi } from "../../api/search";
 import colors from "../../styles/colors";
 
@@ -17,6 +19,7 @@ export default function SearchHistory(props) {
     if (showHistory) {
       (async () => {
         const response = await getSearchHistoryApi();
+        setHistory(response);
         console.log(response);
       })();
     }
@@ -29,7 +32,18 @@ export default function SearchHistory(props) {
         { top: containerHeight },
       ]}
     >
-      <Text>Historial de busquedas</Text>
+      {history &&
+        map(history, (item, index) => (
+          <TouchableWithoutFeedback
+            key={index}
+            onPress={() => console.log(item.search)}
+          >
+            <View style={styles.historyItem}>
+              <Text style={styles.text} >{item.search}</Text>
+              <AwesomeIcon name="arrow-right" size={16} />
+            </View>
+          </TouchableWithoutFeedback>
+        ))}
     </View>
   );
 }
@@ -40,9 +54,25 @@ const styles = StyleSheet.create({
   },
   history: {
     position: "absolute",
-    backgroundColor: "#f00",
-    // backgroundColor: colors.bgLight,
+    backgroundColor: colors.bgLight,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
+  historyItem: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderWidth: 0.2,
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  text: {
+      color: '#53005f',
+      fontSize:16,
+      fontWeight: 'bold'
+  }
 });
