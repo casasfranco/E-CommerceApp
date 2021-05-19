@@ -4,6 +4,7 @@ import { StyleSheet, View, Text } from "react-native";
 export default function Price(props) {
   const { price, price_with_discount, discountFromUnits } = props;
 
+  //{calcPercent(price, price - price_with_discount)}
   const calcPrice = (price, price_with_discount) => {
     if (!price_with_discount) return price;
   };
@@ -25,7 +26,7 @@ export default function Price(props) {
             <Text style={[styles.dataValue, styles.oldPrice]}>$ {price}</Text>
           </View>
           <View style={styles.containerData}>
-            <Text style={styles.dataText}>Llevando 3 ud. o más: </Text>
+            <Text style={styles.dataText}>Llevando {discountFromUnits} ud. o más: </Text>
             <Text style={[styles.dataValue, styles.currentPrice]}>
               $ {price_with_discount}
             </Text>
