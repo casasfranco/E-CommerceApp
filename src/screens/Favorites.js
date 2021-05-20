@@ -1,11 +1,18 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import StatusBar from "../components/StatusBar";
+import Search from "../components/Search";
+import colors from "../styles/colors";
 
 export default function Favorites() {
   return (
-    <View style={styles.container}>
-      <Text>Estamos en la favorites</Text>
-    </View>
+    <>
+      <StatusBar backgroundColor={colors.bgDark} barStyle="light-content" />
+      <Search />
+      <View style={styles.container}>
+        <Text>Estamos en la favorites</Text>
+      </View>
+    </>
   );
 }
 
