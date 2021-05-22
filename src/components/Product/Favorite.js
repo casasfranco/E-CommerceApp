@@ -8,6 +8,7 @@ import { isFavoriteApi, addFavoriteApi } from "../../api/favorite";
 export default function Favorite(props) {
   const { product } = props;
   const [isFavorite, setIsFavorite] = useState(undefined);
+  const [loading, setLoading] = useState(false);
   const { auth } = useAuth();
 
   useEffect(() => {
@@ -19,8 +20,33 @@ export default function Favorite(props) {
   }, [product]);
 
   const addFavorite = async () => {
-    await addFavoriteApi(auth, product._id);
+    if (!loading) {
+      setLoading(true);
+      try {
+        await addFavoriteApi(auth, product._id);
+        setIsFavorite(true);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    }
   };
+
+  if (isFavorite === undefined)
+    return (
+      <View style={{ zIndex: 1 }}>
+        <Button
+          mode="contained"
+          contentStyle={styles.btnUndefinedFavoritesContent}
+          labelStyle={styles.btnLabel}
+          style={styles.btn}
+          onPress={addFavorite}
+          loading={loading}
+        >
+          "Cargando.."
+        </Button>
+      </View>
+    ); //El boton no cargara hasta que no sea false o null
 
   return (
     <View style={{ zIndex: 1 }}>
@@ -34,6 +60,7 @@ export default function Favorite(props) {
         labelStyle={styles.btnLabel}
         style={styles.btn}
         onPress={addFavorite}
+        loading={loading}
       >
         {isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
       </Button>
@@ -48,6 +75,10 @@ const styles = StyleSheet.create({
   },
   btnDeleteFavoritesContent: {
     backgroundColor: "#c40000",
+    paddingVertical: 5,
+  },
+  btnUndefinedFavoritesContent: {
+    backgroundColor: "#C6C6C6",
     paddingVertical: 5,
   },
   btnLabel: {
