@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { size } from "lodash";
 import useAuth from "../../hooks/useAuth";
-import { isFavoriteApi } from "../../api/favorite";
+import { isFavoriteApi, addFavoriteApi } from "../../api/favorite";
 
 export default function Favorite(props) {
   const { product } = props;
@@ -18,10 +18,8 @@ export default function Favorite(props) {
     })();
   }, [product]);
 
-  const addFavorite = () => {
-    console.log("Producto añadido a la lista de favoritos");
-    console.log(product.title);
-    console.log(product._id);
+  const addFavorite = async () => {
+    await addFavoriteApi(auth, product._id);
   };
 
   return (
