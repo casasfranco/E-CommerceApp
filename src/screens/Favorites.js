@@ -12,6 +12,7 @@ import colors from "../styles/colors";
 
 export default function Favorites() {
   const [products, setProducts] = useState(null);
+  const [reloadFavorites, setReloadFavorites] = useState(false);
   const { auth } = useAuth();
 
   useFocusEffect(
@@ -21,7 +22,8 @@ export default function Favorites() {
         const response = await getFavoriteApi(auth);
         setProducts(response);
       })();
-    }, [])
+      setReloadFavorites(false)
+    }, [reloadFavorites])
   );
 
   return (
@@ -36,7 +38,7 @@ export default function Favorites() {
           <Text>No tienes productos en tu lista</Text>
         </View>
       ) : (
-        <FavoriteList products={products} />
+        <FavoriteList products={products} setReloadFavorites={setReloadFavorites} />
       )}
     </>
   );

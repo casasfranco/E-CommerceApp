@@ -4,12 +4,12 @@ import Product from "./Product";
 import { map } from "lodash";
 
 export default function FavoriteList(props) {
-  const { products } = props;
+  const { products, setReloadFavorites } = props;
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Lista de favoritos</Text>
       {map(products, (item) => (
-        <Product key={item._id} item={item} />
+        <Product key={item._id} item={item} setReloadFavorites={setReloadFavorites} />
       ))}
     </ScrollView>
   );

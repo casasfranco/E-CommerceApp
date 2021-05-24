@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { deleteFavoriteApi } from "../../api/favorite";
+import useAuth from "../../hooks/useAuth";
 import { API_URL } from "../../utils/constants";
 import colors from "../../styles/colors.js";
 
 export default function Product(props) {
-  const { item } = props;
+  const { item, setReloadFavorites } = props;
   const navigation = useNavigation();
+  const { auth } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const goToProduct = (id) => {
     navigation.navigate("product", { idProduct: id });
+  };
+
+  const deleteFavorite = async (id) => {
+    setLoading(true);
+    await deleteFavoriteApi(auth, id);
+    setReloadFavorites(true);
+    setLoading(false);
   };
 
   return (
@@ -58,9 +69,17 @@ export default function Product(props) {
             color="#fff"
             size={16}
             style={styles.btnDelete}
+            onPress={() => {
+              deleteFavorite(item.product._id);
+            }}
           />
         </View>
       </View>
+      {loading && (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      )}
     </View>
   );
 }
@@ -123,5 +142,14 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 60,
     height: 32,
+  },
+  loading: {
+    backgroundColor: "#000",
+    opacity: 0.4,
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    borderRadius: 5,
+    justifyContent: "center",
   },
 });
