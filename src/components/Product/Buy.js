@@ -1,17 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import Toast from "react-native-root-toast";
-import { addProductCardApi, getProductCartApi } from "../../api/cart";
+import { addProductCardApi } from "../../api/cart";
 
 export default function Buy(props) {
   const { product, quantity } = props;
-
-  useEffect(() => {
-    (async () => {
-      console.log(await getProductCartApi());
-    })();
-  }, []);
 
   const addProductCart = async () => {
     const response = await addProductCardApi(product._id, quantity);
