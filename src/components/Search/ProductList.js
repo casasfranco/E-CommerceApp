@@ -49,7 +49,7 @@ export default function ProductList(props) {
                 {product.title}
               </Text>
               <View style={styles.prices}>
-                <Text>Llevando {product.discountFromUnits} ud. o más: </Text>
+                <Text>Llevando {product.discount_from_units} ud. o más: </Text>
                 <Text style={styles.currentPrice}>
                   $ {product.price_with_discount}
                 </Text>
