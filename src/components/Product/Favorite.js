@@ -3,7 +3,11 @@ import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { size } from "lodash";
 import useAuth from "../../hooks/useAuth";
-import { isFavoriteApi, addFavoriteApi } from "../../api/favorite";
+import {
+  isFavoriteApi,
+  addFavoriteApi,
+  deleteFavoriteApi,
+} from "../../api/favorite";
 
 export default function Favorite(props) {
   const { product } = props;
@@ -25,6 +29,18 @@ export default function Favorite(props) {
       try {
         await addFavoriteApi(auth, product._id);
         setIsFavorite(true);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    }
+  };
+  const deleteFavorite = async () => {
+    if (!loading) {
+      setLoading(true);
+      try {
+        await deleteFavoriteApi(auth, product._id);
+        setIsFavorite(false);
       } catch (error) {
         console.log(error);
       }
@@ -59,7 +75,7 @@ export default function Favorite(props) {
         }
         labelStyle={styles.btnLabel}
         style={styles.btn}
-        onPress={addFavorite}
+        onPress={isFavorite ? deleteFavorite : addFavorite}
         loading={loading}
       >
         {isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
