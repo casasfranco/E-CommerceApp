@@ -54,9 +54,27 @@ export async function deleteFavoriteApi(auth, idProduct) {
       };
       const response = await fetch(url, params);
       console.log(response);
-        const result = await response.json();
-        return result;
+      const result = await response.json();
+      return result;
     }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function getFavoriteApi(auth) {
+  try {
+    const url = `${API_URL}/favorites?user=${auth.idUser}`;
+    const params = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
+      },
+    };
+    const response = await fetch(url, params);
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.log(error);
     return null;
