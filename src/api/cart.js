@@ -3,6 +3,7 @@ import { size, map, filter } from "lodash";
 import { API_URL, CART } from "../utils/constants";
 
 export async function getProductCartApi() {
+//   await AsyncStorage.removeItem(CART);
   try {
     const cart = await AsyncStorage.getItem(CART);
     if (!cart) return [];

@@ -4,6 +4,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { size } from "lodash";
 import StatusBar from "../components/StatusBar";
 import ScreenLoading from "../components/ScreenLoading";
+import NotProducts from "../components/Cart/NotProducts";
 import { getProductCartApi } from "../api/cart";
 import colors from "../styles/colors";
 
@@ -28,7 +29,7 @@ export default function Cart() {
       {!cart ? (
         <ScreenLoading size="large" text="Cargando carrito" />
       ) : size(cart) === 0 ? (
-        <Text>No tienes productos en el carrito</Text>
+        <NotProducts />
       ) : (
         <Text>Listado de productos del carrito</Text>
       )}
