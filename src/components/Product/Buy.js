@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
+import Toast from "react-native-root-toast";
+import { addProductCardApi, getProductCartApi } from "../../api/cart";
 
 export default function Buy(props) {
   const { product, quantity } = props;
 
-  const addProductCart = () => {
-    console.log("Producto añadido al carrito");
-    console.log(product.title);
-    console.log("Cantidad" + quantity);
+  useEffect(() => {
+    (async () => {
+      console.log(await getProductCartApi());
+    })();
+  }, []);
+
+  const addProductCart = async () => {
+    const response = await addProductCardApi(product._id, quantity);
+
+    if (response) {
+      Toast.show("Producto añadido al carrito", {
+        position: Toast.positions.CENTER,
+      });
+    } else {
+      Toast.show("Error al añadir el producto al carrito", {
+        position: Toast.positions.CENTER,
+      });
+    }
   };
 
   return (
