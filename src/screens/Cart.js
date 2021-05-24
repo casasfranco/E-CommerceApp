@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { size } from "lodash";
 import StatusBar from "../components/StatusBar";
+import ScreenLoading from "../components/ScreenLoading";
 import { getProductCartApi } from "../api/cart";
 import colors from "../styles/colors";
 
@@ -10,6 +12,7 @@ export default function Cart() {
 
   useFocusEffect(
     useCallback(() => {
+      setCart(null);
       loadCart();
     }, [])
   );
@@ -22,9 +25,13 @@ export default function Cart() {
   return (
     <>
       <StatusBar backgroundColor={colors.bgDark} barStyle="light-content" />
-      <View style={styles.container}>
-        <Text>Estamos en la CART</Text>
-      </View>
+      {!cart ? (
+        <ScreenLoading size="large" text="Cargando carrito" />
+      ) : size(cart) === 0 ? (
+        <Text>No tienes productos en el carrito</Text>
+      ) : (
+        <Text>Listado de productos del carrito</Text>
+      )}
     </>
   );
 }
