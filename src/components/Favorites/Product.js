@@ -1,11 +1,17 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ActivityIndicator } from "react-native";
 import { Button, IconButton } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import { API_URL } from "../../utils/constants";
 import colors from "../../styles/colors.js";
 
 export default function Product(props) {
   const { item } = props;
+  const navigation = useNavigation();
+
+  const goToProduct = (id) => {
+    navigation.navigate("product", { idProduct: id });
+  };
 
   return (
     <View style={styles.product}>
@@ -38,7 +44,13 @@ export default function Product(props) {
           </View>
         </View>
         <View style={styles.btnsContainer}>
-          <Button mode="contained" color={colors.primary}>
+          <Button
+            mode="contained"
+            color={colors.primary}
+            onPress={() => {
+              goToProduct(item.product._id);
+            }}
+          >
             Ver producto
           </Button>
           <IconButton
