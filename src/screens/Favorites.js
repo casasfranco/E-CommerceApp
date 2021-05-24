@@ -5,6 +5,7 @@ import { size } from "lodash";
 import StatusBar from "../components/StatusBar";
 import Search from "../components/Search";
 import ScreenLoading from "../components/ScreenLoading";
+import FavoriteList from "../components/Favorites/FavoriteList";
 import useAuth from "../hooks/useAuth";
 import { getFavoriteApi } from "../api/favorite";
 import colors from "../styles/colors";
@@ -35,7 +36,7 @@ export default function Favorites() {
           <Text>No tienes productos en tu lista</Text>
         </View>
       ) : (
-        <Text>LISTADO .....</Text>
+        <FavoriteList products={products} />
       )}
     </>
   );
