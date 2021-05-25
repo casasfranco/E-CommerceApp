@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 40,
     marginBottom: 30,
+    
   },
   containerTitle: {
     paddingBottom: 10,
