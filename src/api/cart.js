@@ -63,3 +63,51 @@ export async function deleteProductCartApi(idProduct) {
     return false;
   }
 }
+
+export async function increaseProductCartApi(idProduct) {
+  try {
+    const cart = await getProductCartApi();
+
+    map(cart, (product) => {
+      if (product.idProduct === idProduct) {
+        return (product.quantity += 1);
+      }
+    });
+
+    await AsyncStorage.setItem(CART, JSON.stringify(cart));
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function decreaseProductCartApi(idProduct) {
+  let isDelete = false;
+
+  try {
+    const cart = await getProductCartApi();
+
+    map(cart, (product) => {
+      if (product.idProduct === idProduct) {
+        if (product.quantity === 1) {
+          isDelete = true;
+          return null;
+        } else {
+          return (product.quantity -= 1);
+        }
+      }
+    });
+
+    if (isDelete) {
+      await deleteProductCartApi(idProduct);
+    } else {
+      await AsyncStorage.setItem(CART, JSON.stringify(cart));
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

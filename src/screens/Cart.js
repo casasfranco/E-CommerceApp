@@ -23,7 +23,10 @@ export default function Cart() {
   );
 
   useEffect(() => {
-    reloadCart && loadCart();
+    if (reloadCart) {
+      loadCart();
+      setReloadCart(false);
+    }
   }, [reloadCart]);
 
   const loadCart = async () => {

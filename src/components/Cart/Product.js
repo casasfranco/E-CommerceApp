@@ -1,11 +1,16 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import { Button, IconButton } from "react-native-paper";
-import { deleteProductCartApi } from "../../api/cart";
+import {
+  deleteProductCartApi,
+  increaseProductCartApi,
+  decreaseProductCartApi,
+} from "../../api/cart";
 import { API_URL } from "../../utils/constants";
 import colors from "../../styles/colors";
 
 export default function Product(props) {
+  const { product } = props;
   const { setReloadCart } = props;
 
   const deleteProductCard = async () => {
@@ -13,7 +18,16 @@ export default function Product(props) {
     if (response) setReloadCart(true);
   };
 
-  const { product } = props;
+  const increaseProductCart = async () => {
+    const response = await increaseProductCartApi(product._id);
+    if (response) setReloadCart(true);
+  };
+
+  const decreaseProductCart = async () => {
+    const response = await decreaseProductCartApi(product._id);
+    if (response) setReloadCart(true);
+  };
+
   return (
     <View style={styles.product}>
       <View style={styles.containerImage}>
@@ -54,6 +68,7 @@ export default function Product(props) {
               color="#fff"
               size={23}
               style={styles.btnQuantity}
+              onPress={increaseProductCart}
             />
             <TextInput
               style={styles.inputQuantity}
@@ -64,6 +79,7 @@ export default function Product(props) {
               color="#fff"
               size={23}
               style={styles.btnQuantity}
+              onPress={decreaseProductCart}
             />
           </View>
           <Button
