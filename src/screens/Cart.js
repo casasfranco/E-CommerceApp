@@ -12,6 +12,7 @@ import colors from "../styles/colors";
 
 export default function Cart() {
   const [cart, setCart] = useState(null);
+  const [products, setProducts] = useState(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -28,14 +29,16 @@ export default function Cart() {
   return (
     <>
       <StatusBar backgroundColor={colors.bgDark} barStyle="light-content" />
-      {!cart ? (
-        <ScreenLoading size="large" text="Cargando carrito" />
-      ) : size(cart) === 0 ? (
+      {!cart && size(cart) === 0 ? (
         <NotProducts />
       ) : (
         <KeyboardAwareScrollView extraScrollHeight={25}>
           <ScrollView style={styles.cartContainer}>
-            <ProductList cart={cart} />
+            <ProductList
+              cart={cart}
+              products={products}
+              setProducts={setProducts}
+            />
           </ScrollView>
         </KeyboardAwareScrollView>
       )}
