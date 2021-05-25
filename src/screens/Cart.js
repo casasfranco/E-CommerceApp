@@ -8,6 +8,7 @@ import ScreenLoading from "../components/ScreenLoading";
 import NotProducts from "../components/Cart/NotProducts";
 import ProductList from "../components/Cart/ProductList";
 import AddressList from "../components/Cart/AddressList";
+import Payment from "../components/Cart/Payment";
 import useAuth from "../hooks/useAuth";
 import { getProductCartApi } from "../api/cart";
 import { getAddressesApi } from "../api/address";
@@ -68,6 +69,7 @@ export default function Cart() {
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />
+            <Payment products={products} selectedAddress={selectedAddress} />
           </ScrollView>
         </KeyboardAwareScrollView>
       )}
