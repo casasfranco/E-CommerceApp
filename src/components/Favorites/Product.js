@@ -37,21 +37,21 @@ export default function Product(props) {
           <Text style={styles.name} numberOfLines={3} ellipsizeMode="tail">
             {item.product.title}
           </Text>
-          <View style={styles.price}>
+          <View style={styles.prices}>
+            {item.product.price_with_discount && (
+              <Text style={styles.oldPrice}>Precio unitario: </Text>
+            )}
+            {item.product.price_with_discount && (
+              <Text style={styles.oldPrice}>${item.product.price}</Text>
+            )}
+          </View>
+          <View style={styles.prices}>
             <Text style={styles.fromUnits}>
               Llevando {item.product.discount_from_units} ud. o más:{" "}
             </Text>
             <Text style={styles.currentPrice}>
               ${item.product.price_with_discount}
             </Text>
-          </View>
-          <View style={styles.price}>
-            {item.product.price_with_discount && (
-              <Text style={styles.oldPrice}>Antes: </Text>
-            )}
-            {item.product.price_with_discount && (
-              <Text style={styles.oldPrice}>${item.product.price}</Text>
-            )}
           </View>
         </View>
         <View style={styles.btnsContainer}>
@@ -112,22 +112,24 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
   },
-  price: {
+  prices: {
     flexDirection: "row",
     marginTop: 5,
     alignItems: "flex-end",
+    flexWrap: "wrap",
   },
   fromUnits: {
-    fontSize: 14,
+    fontSize: 16,
+    marginRight: 20,
   },
   currentPrice: {
-    fontSize: 20,
+    fontSize: 24,
+    color: "#b12704",
   },
   oldPrice: {
-    marginLeft: 7,
+    marginTop: 10,
     fontSize: 14,
     color: "#747474",
-    textDecorationLine: "line-through",
   },
   btnsContainer: {
     flexDirection: "row",
@@ -135,11 +137,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
     width: "100%",
+    flexWrap: "wrap",
+    marginTop: 10,
   },
   btnDelete: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.danger,
     borderRadius: 5,
-    margin: 5,
+    margin: 0,
     width: 60,
     height: 32,
   },
