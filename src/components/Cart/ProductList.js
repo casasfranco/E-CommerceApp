@@ -6,7 +6,7 @@ import Product from "../Cart/Product";
 import { getProductApi } from "../../api/product";
 
 export default function ProductList(props) {
-  const { cart, products, setProducts } = props;
+  const { cart, products, setProducts, setReloadCart } = props;
 
   useEffect(() => {
     (async () => {
@@ -28,7 +28,11 @@ export default function ProductList(props) {
         <ScreenLoading text="Cargando carrito" size="large" />
       ) : (
         map(products, (product) => (
-          <Product key={product._id} product={product}/>
+          <Product
+            key={product._id}
+            product={product}
+            setReloadCart={setReloadCart}
+          />
         ))
       )}
     </View>

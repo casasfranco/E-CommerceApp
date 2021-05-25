@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { StyleSheet, ScrollView, View, Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { size } from "lodash";
@@ -13,6 +13,7 @@ import colors from "../styles/colors";
 export default function Cart() {
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState(null);
+  const [reloadCart, setReloadCart] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -20,6 +21,10 @@ export default function Cart() {
       loadCart();
     }, [])
   );
+
+  useEffect(() => {
+    reloadCart && loadCart();
+  }, [reloadCart]);
 
   const loadCart = async () => {
     const response = await getProductCartApi();
@@ -38,6 +43,7 @@ export default function Cart() {
               cart={cart}
               products={products}
               setProducts={setProducts}
+              setReloadCart={setReloadCart}
             />
           </ScrollView>
         </KeyboardAwareScrollView>

@@ -60,7 +60,6 @@ export default function Product(props) {
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 10,
     paddingBottom: 50,
   },
   title: {

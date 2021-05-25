@@ -2,13 +2,13 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import Toast from "react-native-root-toast";
-import { addProductCardApi } from "../../api/cart";
+import { addProductCartApi } from "../../api/cart";
 
 export default function Buy(props) {
   const { product, quantity } = props;
 
   const addProductCart = async () => {
-    const response = await addProductCardApi(product._id, quantity);
+    const response = await addProductCartApi(product._id, quantity);
 
     if (response) {
       Toast.show("Producto añadido al carrito", {

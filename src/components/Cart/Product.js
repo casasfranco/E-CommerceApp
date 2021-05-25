@@ -1,10 +1,18 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import { Button, IconButton } from "react-native-paper";
+import { deleteProductCartApi } from "../../api/cart";
 import { API_URL } from "../../utils/constants";
 import colors from "../../styles/colors";
 
 export default function Product(props) {
+  const { setReloadCart } = props;
+
+  const deleteProductCard = async () => {
+    const response = await deleteProductCartApi(product._id);
+    if (response) setReloadCart(true);
+  };
+
   const { product } = props;
   return (
     <View style={styles.product}>
@@ -44,7 +52,7 @@ export default function Product(props) {
             <IconButton
               icon="plus"
               color="#fff"
-              size={19}
+              size={23}
               style={styles.btnQuantity}
             />
             <TextInput
@@ -54,14 +62,15 @@ export default function Product(props) {
             <IconButton
               icon="minus"
               color="#fff"
-              size={19}
+              size={23}
               style={styles.btnQuantity}
             />
           </View>
           <Button
             color="#b12704"
             mode="contained"
-            onPress={() => console.log("eliminar producto")}
+            onPress={deleteProductCard}
+            style={styles.btnDelete}
           >
             Eliminar
           </Button>
@@ -124,6 +133,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     position: "relative",
     width: "100%",
+    flexWrap: "wrap",
+    marginVertical: 10,
   },
   selectQuantity: {
     flexDirection: "row",
@@ -137,5 +148,8 @@ const styles = StyleSheet.create({
   inputQuantity: {
     paddingHorizontal: 10,
     fontSize: 16,
+  },
+  btnDelete: {
+    marginVertical: 20,
   },
 });

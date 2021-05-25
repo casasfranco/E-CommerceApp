@@ -3,7 +3,7 @@ import { size, map, filter } from "lodash";
 import { API_URL, CART } from "../utils/constants";
 
 export async function getProductCartApi() {
-//   await AsyncStorage.removeItem(CART);
+  //   await AsyncStorage.removeItem(CART);
   try {
     const cart = await AsyncStorage.getItem(CART);
     if (!cart) return [];
@@ -14,7 +14,7 @@ export async function getProductCartApi() {
   }
 }
 
-export async function addProductCardApi(idProduct, quantity) {
+export async function addProductCartApi(idProduct, quantity) {
   try {
     const cart = await getProductCartApi();
     if (!cart) throw "Error al obtener el carrito"; //Null
@@ -43,6 +43,20 @@ export async function addProductCardApi(idProduct, quantity) {
       }
     }
     await AsyncStorage.setItem(CART, JSON.stringify(cart));
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function deleteProductCartApi(idProduct) {
+  try {
+    const cart = await getProductCartApi();
+    const newCart = filter(cart, (product) => {
+      return product.idProduct !== idProduct;
+    });
+    await AsyncStorage.setItem(CART, JSON.stringify(newCart));
     return true;
   } catch (error) {
     console.log(error);
