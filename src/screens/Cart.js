@@ -7,18 +7,24 @@ import StatusBar from "../components/StatusBar";
 import ScreenLoading from "../components/ScreenLoading";
 import NotProducts from "../components/Cart/NotProducts";
 import ProductList from "../components/Cart/ProductList";
+import AddressList from "../components/Cart/AddressList";
+import useAuth from "../hooks/useAuth";
 import { getProductCartApi } from "../api/cart";
+import { getAddressesApi } from "../api/address";
 import colors from "../styles/colors";
 
 export default function Cart() {
   const [cart, setCart] = useState(null);
   const [products, setProducts] = useState(null);
   const [reloadCart, setReloadCart] = useState(false);
+  const [addresses, setAddresses] = useState(null);
+  const { auth } = useAuth();
 
   useFocusEffect(
     useCallback(() => {
       setCart(null);
       loadCart();
+      loadAddresses();
     }, [])
   );
 
@@ -32,6 +38,11 @@ export default function Cart() {
   const loadCart = async () => {
     const response = await getProductCartApi();
     setCart(response);
+  };
+
+  const loadAddresses = async () => {
+    const response = await getAddressesApi(auth);
+    setAddresses(response);
   };
 
   return (
@@ -48,6 +59,7 @@ export default function Cart() {
               setProducts={setProducts}
               setReloadCart={setReloadCart}
             />
+            <AddressList addresses={addresses} />
           </ScrollView>
         </KeyboardAwareScrollView>
       )}
