@@ -18,12 +18,14 @@ export default function Cart() {
   const [products, setProducts] = useState(null);
   const [reloadCart, setReloadCart] = useState(false);
   const [addresses, setAddresses] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const { auth } = useAuth();
 
   useFocusEffect(
     useCallback(() => {
       setCart(null);
       setAddresses(null);
+      setSelectedAddress(null);
 
       loadCart();
       loadAddresses();
@@ -61,7 +63,11 @@ export default function Cart() {
               setProducts={setProducts}
               setReloadCart={setReloadCart}
             />
-            <AddressList addresses={addresses} />
+            <AddressList
+              addresses={addresses}
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
           </ScrollView>
         </KeyboardAwareScrollView>
       )}
