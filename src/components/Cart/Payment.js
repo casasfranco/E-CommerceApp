@@ -24,7 +24,7 @@ export default function Payment(props) {
         contentStyle={styles.btnContent}
         labelStyle={styles.btnText}
       >
-        Pagar (TOTAL $)
+        Pagar (TOTAL $ )
       </Button>
     </View>
   );
