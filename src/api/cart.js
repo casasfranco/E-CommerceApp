@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { size, map, filter } from "lodash";
+import { size, map, filter, toNumber } from "lodash";
 import { API_URL, CART } from "../utils/constants";
 
 export async function getProductCartApi() {
@@ -14,7 +14,15 @@ export async function getProductCartApi() {
   }
 }
 
-export async function addProductCartApi(idProduct, quantity) {
+export async function addProductCartApi(
+  idProduct,
+  quantity,
+  price,
+  discount_from_units,
+  price_with_discount,
+  subTotal
+) {
+  console.log("subTotal: " + subTotal);
   try {
     const cart = await getProductCartApi();
     if (!cart) throw "Error al obtener el carrito"; //Null
@@ -23,6 +31,10 @@ export async function addProductCartApi(idProduct, quantity) {
       cart.push({
         idProduct,
         quantity,
+        price,
+        discount_from_units,
+        price_with_discount,
+        subTotal,
       });
     } else {
       let founded = false;
@@ -31,6 +43,11 @@ export async function addProductCartApi(idProduct, quantity) {
         if (product.idProduct === idProduct) {
           product.quantity += quantity; //Incremento cantidades a las existentes
           founded = true; //Encontre el producto
+          if (product.quantity >= product.discount_from_units) {
+            product.subTotal = Number(
+              product.quantity * product.price_with_discount
+            );
+          }
           return product;
         }
       });
@@ -39,10 +56,16 @@ export async function addProductCartApi(idProduct, quantity) {
         cart.push({
           idProduct,
           quantity,
+          price,
+          discount_from_units,
+          price_with_discount,
+          subTotal,
         });
       }
     }
+    console.log(cart);
     await AsyncStorage.setItem(CART, JSON.stringify(cart));
+
     return true;
   } catch (error) {
     console.log(error);
@@ -67,10 +90,18 @@ export async function deleteProductCartApi(idProduct) {
 export async function increaseProductCartApi(idProduct) {
   try {
     const cart = await getProductCartApi();
-
+    console.log(cart);
     map(cart, (product) => {
       if (product.idProduct === idProduct) {
-        return (product.quantity += 1);
+        product.quantity += 1;
+        if (product.quantity >= product.discount_from_units) {
+          product.subTotal = Number(
+            product.quantity * product.price_with_discount
+          );
+        } else {
+          product.subTotal = Number(product.quantity * product.price);
+        }
+        return true;
       }
     });
 
@@ -94,7 +125,15 @@ export async function decreaseProductCartApi(idProduct) {
           isDelete = true;
           return null;
         } else {
-          return (product.quantity -= 1);
+          product.quantity -= 1;
+          if (product.quantity >= product.discount_from_units) {
+            product.subTotal = Number(
+              product.quantity * product.price_with_discount
+            );
+          } else {
+            product.subTotal = Number(product.quantity * product.price);
+          }
+          return true;
         }
       }
     });

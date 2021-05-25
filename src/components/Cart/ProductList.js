@@ -6,18 +6,33 @@ import Product from "../Cart/Product";
 import { getProductApi } from "../../api/product";
 
 export default function ProductList(props) {
-  const { cart, products, setProducts, setReloadCart } = props;
+  const {
+    cart,
+    products,
+    setProducts,
+    setReloadCart,
+    setTotalPayment,
+  } = props;
 
   useEffect(() => {
+
+    setProducts(null);
+
     (async () => {
-      setProducts(null);
       const productTemp = [];
+      let totalPaymentTemp = 0;
+
       for await (const product of cart) {
         const response = await getProductApi(product.idProduct);
         response.quantity = product.quantity;
         productTemp.push(response);
+
+        //Calc total
+        totalPaymentTemp += product.subTotal;
       }
+
       setProducts(productTemp);
+      setTotalPayment(totalPaymentTemp);
     })();
   }, [cart]);
 

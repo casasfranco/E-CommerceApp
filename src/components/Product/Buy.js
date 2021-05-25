@@ -8,7 +8,21 @@ export default function Buy(props) {
   const { product, quantity } = props;
 
   const addProductCart = async () => {
-    const response = await addProductCartApi(product._id, quantity);
+    let subTotal = 0;
+    if (quantity >= product.discount_from_units) {
+      subTotal = quantity * product.price_with_discount;
+    } else {
+      subTotal = quantity * product.price;
+    }
+
+    const response = await addProductCartApi(
+      product._id,
+      quantity,
+      product.price,
+      product.discount_from_units,
+      product.price_with_discount,
+      subTotal
+    );
 
     if (response) {
       Toast.show("Producto añadido al carrito", {

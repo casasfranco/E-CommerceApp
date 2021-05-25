@@ -4,7 +4,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import { size } from "lodash";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import StatusBar from "../components/StatusBar";
-import ScreenLoading from "../components/ScreenLoading";
 import NotProducts from "../components/Cart/NotProducts";
 import ProductList from "../components/Cart/ProductList";
 import AddressList from "../components/Cart/AddressList";
@@ -20,6 +19,7 @@ export default function Cart() {
   const [reloadCart, setReloadCart] = useState(false);
   const [addresses, setAddresses] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [totalPayment, setTotalPayment] = useState(null);
   const { auth } = useAuth();
 
   useFocusEffect(
@@ -63,13 +63,18 @@ export default function Cart() {
               products={products}
               setProducts={setProducts}
               setReloadCart={setReloadCart}
+              setTotalPayment={setTotalPayment}
             />
             <AddressList
               addresses={addresses}
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />
-            <Payment products={products} selectedAddress={selectedAddress} />
+            <Payment
+              products={products}
+              selectedAddress={selectedAddress}
+              totalPayment={totalPayment}
+            />
           </ScrollView>
         </KeyboardAwareScrollView>
       )}

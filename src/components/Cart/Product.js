@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import {
@@ -11,6 +11,7 @@ import colors from "../../styles/colors";
 
 export default function Product(props) {
   const { product } = props;
+
   const { setReloadCart } = props;
 
   const deleteProductCard = async () => {
@@ -41,24 +42,39 @@ export default function Product(props) {
           <Text style={styles.name} numberOfLines={3} ellipsizeMode="tail">
             {product.title}
           </Text>
+          {/* Aqui comprobamos que precios mostrar dependiendo de la cantidad */}
+          {product.quantity < product.discount_from_units ? (
+            <>
+              <View style={styles.prices}>
+                {product.price_with_discount && (
+                  <Text style={styles.oldPrice}>Precio unitario: </Text>
+                )}
+                {product.price_with_discount && (
+                  <Text style={styles.oldPrice}>${product.price}</Text>
+                )}
+              </View>
 
-          <View style={styles.prices}>
-            {product.price_with_discount && (
-              <Text style={styles.oldPrice}>Precio unitario: </Text>
-            )}
-            {product.price_with_discount && (
-              <Text style={styles.oldPrice}>${product.price}</Text>
-            )}
-          </View>
-
-          <View style={styles.prices}>
-            <Text style={styles.fromUnits}>
-              Llevando {product.discount_from_units} ud. o más:{" "}
-            </Text>
-            <Text style={styles.currentPrice}>
-              ${product.price_with_discount}
-            </Text>
-          </View>
+              <View style={styles.prices}>
+                <Text style={styles.fromUnits}>
+                  Llevando {product.discount_from_units} ud. o más:{" "}
+                </Text>
+                <Text style={styles.currentPrice}>
+                 ${product.price_with_discount}
+                </Text>
+                <Text> C/u</Text>
+              </View>
+              <Text style={{ color: "#b12704", marginTop:20, fontSize:12 }}>
+                Faltan {product.discount_from_units -  product.quantity} ud. para obtener precio promocional
+              </Text>
+            </>
+          ) : (
+            <View style={[styles.prices, { marginTop: 30 }]}>
+              <Text style={styles.priceDiscountApplied}>Precio:</Text>
+              <Text style={styles.currentPrice}>
+                ${product.price_with_discount}
+              </Text>
+            </View>
+          )}
         </View>
 
         <View style={styles.btnsCountainer}>
@@ -128,8 +144,8 @@ const styles = StyleSheet.create({
   prices: {
     flexDirection: "row",
     marginTop: 5,
-    alignItems: "flex-end",
     flexWrap: "wrap",
+    alignItems: "center",
   },
   fromUnits: {
     fontSize: 16,
@@ -143,6 +159,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     color: "#747474",
+  },
+  priceDiscountApplied: {
+    fontSize: 18,
+    marginRight: 10,
   },
   btnsCountainer: {
     flexDirection: "row",

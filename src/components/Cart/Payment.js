@@ -5,7 +5,7 @@ import { formStyles } from "../../styles";
 import colors from "../../styles/colors";
 
 export default function Payment(props) {
-  const { products, selectedAddress } = props;
+  const { products, selectedAddress, totalPayment } = props;
   return (
     <View style={styles.container}>
       <Text style={styles.containerTitle}>Forma de pago</Text>
@@ -24,7 +24,7 @@ export default function Payment(props) {
         contentStyle={styles.btnContent}
         labelStyle={styles.btnText}
       >
-        Pagar (TOTAL $ )
+        Pagar {totalPayment && `($${totalPayment})`}
       </Button>
     </View>
   );
