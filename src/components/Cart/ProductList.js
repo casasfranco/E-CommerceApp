@@ -25,7 +25,7 @@ export default function ProductList(props) {
     <View>
       <Text style={styles.title}>Productos: </Text>
       {!products ? (
-        <ScreenLoading text="Cargando carrito" size="large" />
+        <ScreenLoading text="Cargando carrito" />
       ) : (
         map(products, (product) => (
           <Product

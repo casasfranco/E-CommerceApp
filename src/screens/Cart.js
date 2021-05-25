@@ -23,6 +23,8 @@ export default function Cart() {
   useFocusEffect(
     useCallback(() => {
       setCart(null);
+      setAddresses(null);
+
       loadCart();
       loadAddresses();
     }, [])

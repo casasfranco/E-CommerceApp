@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
 import { map } from "lodash";
+import ScreenLoading from "../ScreenLoading";
 import colors from "../../styles/colors";
 
 export default function AddressList(props) {
@@ -8,6 +9,9 @@ export default function AddressList(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.containerTitle}>Dirección de envío</Text>
+
+      {!addresses && <ScreenLoading text="Cargando direcciones"  />}
+
       {map(addresses, (address) => (
         <TouchableWithoutFeedback
           key={address._id}
