@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Toast from "react-native-root-toast";
+import { size } from "lodash";
 import useAuth from "../../hooks/useAuth";
 import { STRIPE_PUBLISHABLE_KEY } from "../../utils/constants";
-import { paymentCartApi } from "../../api/cart";
+import { paymentCartApi, deleteCartApi } from "../../api/cart";
 import { formStyles } from "../../styles";
 import colors from "../../styles/colors";
 const stripe = require("stripe-client")(STRIPE_PUBLISHABLE_KEY);
@@ -15,6 +17,7 @@ export default function Payment(props) {
   const { products, selectedAddress, totalPayment } = props;
   const [loading, setLoading] = useState(false);
   const { auth } = useAuth();
+  const navigation = useNavigation();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -36,7 +39,15 @@ export default function Payment(props) {
           selectedAddress
         );
 
-        console.log(response);
+        if (size(response) > 0) {
+          await deleteCartApi();
+          navigation.navigate("account");
+        } else {
+          Toast.show("Error al realizar el pedido", {
+            position: Toast.positions.CENTER,
+          });
+          setLoading(false);
+        }
       }
     },
   });
