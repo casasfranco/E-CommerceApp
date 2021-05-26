@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
+import { Button } from "react-native-paper";
 import { API_URL } from "../../utils/constants";
+import colors from "../../styles/colors";
 
 export default function Order(props) {
   const { order } = props;
@@ -18,6 +20,9 @@ export default function Order(props) {
         </Text>
         <Text>Cantidad: {order.quantity}</Text>
         <Text>Total pagado: ${order.productsPayment}</Text>
+        <Button style={styles.btn} color={colors.fontLight}>
+          Estado: {order.status}
+        </Button>
       </View>
     </View>
   );
@@ -54,5 +59,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
+  },
+  btn: {
+    backgroundColor: colors.primary,
+    width: 250,
+    marginTop: 10
   },
 });

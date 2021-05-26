@@ -169,6 +169,7 @@ export async function paymentCartApi(auth, tokenStripe, products, address) {
         products,
         idUser: auth.idUser,
         addressShipping,
+        status: "En Progreso",
       }),
     };
     const response = await fetch(url, params);
