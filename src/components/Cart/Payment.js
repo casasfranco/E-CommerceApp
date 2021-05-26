@@ -41,7 +41,7 @@ export default function Payment(props) {
 
         if (size(response) > 0) {
           await deleteCartApi();
-          navigation.navigate("account");
+          navigation.navigate("account", { screen: "orders" });
         } else {
           Toast.show("Error al realizar el pedido", {
             position: Toast.positions.CENTER,
