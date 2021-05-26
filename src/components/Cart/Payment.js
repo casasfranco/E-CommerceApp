@@ -1,19 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Toast from "react-native-root-toast";
 import { formStyles } from "../../styles";
+import { STRIPE_PUBLISHABLE_KEY } from "../../utils/constants";
 import colors from "../../styles/colors";
+const stripe = require("stripe-client")(STRIPE_PUBLISHABLE_KEY);
 
 export default function Payment(props) {
   const { products, selectedAddress, totalPayment } = props;
+  const [loading, setLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: async (formData) => {
-      console.log("Realizando pago");
-      console.log(formData);
+      setLoading(true);
+      //Acuerdo de cobro
+      // { number: "", exp_month: "", exp_year: "", cvc: "", name: ""}
+      const result = await stripe.createToken({ card: formData }); //Enviar objeto con info de tarjeta
+
+      if (result?.error) {
+        setLoading(false);
+        Toast.show(result.error.message, { position: Toast.positions.CENTER });
+      } else {
+        console.log("ok");
+        console.log(result.id);
+      }
     },
   });
   return (
@@ -63,7 +78,8 @@ export default function Payment(props) {
         mode="contained"
         contentStyle={styles.btnContent}
         labelStyle={styles.btnText}
-        onPress={formik.handleSubmit}
+        onPress={!loading && formik.handleSubmit}
+        loading={loading}
       >
         Pagar {totalPayment && `($${totalPayment})`}
       </Button>
