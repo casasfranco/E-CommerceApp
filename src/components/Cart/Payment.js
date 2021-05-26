@@ -4,14 +4,17 @@ import { TextInput, Button } from "react-native-paper";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Toast from "react-native-root-toast";
-import { formStyles } from "../../styles";
+import useAuth from "../../hooks/useAuth";
 import { STRIPE_PUBLISHABLE_KEY } from "../../utils/constants";
+import { paymentCartApi } from "../../api/cart";
+import { formStyles } from "../../styles";
 import colors from "../../styles/colors";
 const stripe = require("stripe-client")(STRIPE_PUBLISHABLE_KEY);
 
 export default function Payment(props) {
   const { products, selectedAddress, totalPayment } = props;
   const [loading, setLoading] = useState(false);
+  const { auth } = useAuth();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -26,8 +29,14 @@ export default function Payment(props) {
         setLoading(false);
         Toast.show(result.error.message, { position: Toast.positions.CENTER });
       } else {
-        console.log("ok");
-        console.log(result.id);
+        const response = await paymentCartApi(
+          auth,
+          result.id,
+          products,
+          selectedAddress
+        );
+
+        console.log(response);
       }
     },
   });
