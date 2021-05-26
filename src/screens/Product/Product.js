@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { IconButton } from "react-native-paper";
 import StatusBar from "../../components/StatusBar";
 import Search from "../../components/Search";
 import ScreenLoading from "../../components/ScreenLoading";
@@ -9,6 +10,7 @@ import Price from "../../components/Product/Price";
 import Quantity from "../../components/Product/Quantity";
 import Buy from "../../components/Product/Buy";
 import Favorite from "../../components/Product/Favorite";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../styles/colors";
 
 export default function Product(props) {
@@ -18,6 +20,8 @@ export default function Product(props) {
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [quantity, setQuantity] = useState(1);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     setProduct(null);
@@ -40,6 +44,15 @@ export default function Product(props) {
         <ScreenLoading text="Cargando producto" size="large" />
       ) : (
         <ScrollView style={styles.container}>
+          <IconButton
+            icon="arrow-left"
+            color="#fff"
+            size={25}
+            style={styles.btnDelete}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
           <Text style={styles.title}>{product.title}</Text>
           <CarouselImage images={images} />
           <View style={styles.containerView}>
@@ -71,5 +84,14 @@ const styles = StyleSheet.create({
   containerView: {
     padding: 10,
     marginBottom: 100,
+  },
+  btnDelete: {
+    backgroundColor: colors.bgDark,
+    borderRadius: 5,
+    margin: 0,
+    marginTop: 10,
+    marginLeft: 10,
+    width: 55,
+    height: 35,
   },
 });
