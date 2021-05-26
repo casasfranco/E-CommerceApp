@@ -8,10 +8,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Button } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 import { map } from "lodash";
-import colors from "../../styles/colors";
 import { API_URL } from "../../utils/constants";
+import colors from "../../styles/colors";
 
 export default function ProductList(props) {
   const { products } = props;
@@ -28,6 +28,15 @@ export default function ProductList(props) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <IconButton
+        icon="arrow-left"
+        color="#fff"
+        size={25}
+        style={styles.btnBack}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
       <Text style={styles.title}>RESULTADOS</Text>
       {map(products, (product) => (
         <TouchableWithoutFeedback
@@ -70,7 +79,8 @@ export default function ProductList(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
     paddingHorizontal: 10,
   },
   title: {
@@ -128,5 +138,14 @@ const styles = StyleSheet.create({
     bottom: 5,
     left: 0,
     right: 0,
+  },
+  btnBack: {
+    backgroundColor: colors.bgDark,
+    borderRadius: 5,
+    margin: 0,
+    marginBottom: 10,
+    marginLeft: 10,
+    width: 55,
+    height: 35,
   },
 });

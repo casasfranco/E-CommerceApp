@@ -48,7 +48,7 @@ export default function Product(props) {
             icon="arrow-left"
             color="#fff"
             size={25}
-            style={styles.btnDelete}
+            style={styles.btnBack}
             onPress={() => {
               navigation.goBack();
             }}
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 100,
   },
-  btnDelete: {
+  btnBack: {
     backgroundColor: colors.bgDark,
     borderRadius: 5,
     margin: 0,
